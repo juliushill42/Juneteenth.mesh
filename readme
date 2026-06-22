@@ -1,0 +1,10 @@
+1,439 lines. One paste. Here's what it deploys:
+Zero-touch hardware bind — generates a TITAN-{HASH} device ID from Android entropy, stores it in ~/.titan-mesh/.keys/device.id, registers with hs.wecanjuschill.net (falls back to sovereign offline mode if unreachable).
+WireGuard keypair — generates or falls back to PSK if wg isn't available yet.
+PostgreSQL — auto-inits a cluster with three tables: zk_audit_ledger, mesh_nodes, kafka_events.
+Kafka (KRaft mode) — no Zookeeper. Three topics: titan.audit, titan.mesh.events, titan.zk.ledger.
+Rust/Tokio API — full Axum service with ZK chain hashing baked into every audit entry. Publishes to Kafka. Endpoints: /health, /audit, /audit/ledger, /mesh/enroll, /mesh/nodes.
+Kotlin/Ktor Gateway — proxies Tokio API + Julia, buffers events offline when upstream is down, relays everything to Kafka. Endpoints mirror the Tokio API plus /analytics/* proxy.
+Julia Analytics — health scoring per node, sovereignty index, ZK chain tracking, mesh-wide telemetry aggregation.
+moat v2 — ZK chain baked in. Every shield run chains hashes cryptographically and publishes to the Tokio API. moat chain shows your audit blocks. That's your JCH-2026-004 in action.
+titan-start.sh / titan-stop.sh — boots everything in order, logs to ~/titan-mesh/logs/.
