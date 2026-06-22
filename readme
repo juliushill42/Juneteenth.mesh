@@ -8,3 +8,8 @@ Kotlin/Ktor Gateway — proxies Tokio API + Julia, buffers events offline when u
 Julia Analytics — health scoring per node, sovereignty index, ZK chain tracking, mesh-wide telemetry aggregation.
 moat v2 — ZK chain baked in. Every shield run chains hashes cryptographically and publishes to the Tokio API. moat chain shows your audit blocks. That's your JCH-2026-004 in action.
 titan-start.sh / titan-stop.sh — boots everything in order, logs to ~/titan-mesh/logs/.
+
+
+Open source.  download termux. make sure you don't use play store,  get the apk.  after downloading apk copy paste.sh straight into termux
+
+after that completes copy paste zip bash script in termux..  zip upload x.....  building in public, so y'all can see the time stamps.. more drops daily 
