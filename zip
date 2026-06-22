@@ -1,0 +1,153 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# TITAN — Drop this in Termux once. Type 'titan' forever.
+# ==============================================================================
+
+TITAN_SCRIPT='#!/usr/bin/env bash
+# TITAN CLI — Sovereign Stack Launcher
+# Type: titan
+
+RED='"'"'\033[0;31m'"'"'
+GREEN='"'"'\033[0;32m'"'"'
+YELLOW='"'"'\033[0;33m'"'"'
+BLUE='"'"'\033[0;34m'"'"'
+CYAN='"'"'\033[0;36m'"'"'
+MAGENTA='"'"'\033[0;35m'"'"'
+WHITE='"'"'\033[0;37m'"'"'
+NC='"'"'\033[0m'"'"'
+BOLD='"'"'\033[1m'"'"'
+
+DEVICE_ID=$(cat "$HOME/titan-mesh/.keys/device.id" 2>/dev/null || echo "UNBOUND")
+
+clear
+echo -e "${CYAN}${BOLD}"
+echo " ████████╗██╗████████╗ █████╗ ███╗   ██╗"
+echo " ╚══██╔══╝██║╚══██╔══╝██╔══██╗████╗  ██║"
+echo "    ██║   ██║   ██║   ███████║██╔██╗ ██║"
+echo "    ██║   ██║   ██║   ██╔══██║██║╚██╗██║"
+echo "    ██║   ██║   ██║   ██║  ██║██║ ╚████║"
+echo "    ╚═╝   ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝"
+echo -e "${NC}"
+echo -e "${WHITE}  TitanU AI LLC — Sovereign Infrastructure${NC}"
+echo -e "${MAGENTA}  Device : ${DEVICE_ID}${NC}"
+echo -e "${BLUE}  Control: hs.wecanjuschill.net${NC}"
+echo -e "${YELLOW}  Patent : JCH-2026-004 | JCH-2026-006${NC}"
+echo ""
+echo -e "${BOLD}  Stack Ready:${NC}"
+
+check() {
+    local name="$1" cmd="$2"
+    if command -v "$cmd" &>/dev/null; then
+        echo -e "  ${GREEN}[✓]${NC} $name $(${cmd} --version 2>/dev/null | head -1 | grep -oP '\d+\.\d+[\.\d]*' | head -1)"
+    else
+        echo -e "  ${RED}[✗]${NC} $name — not installed"
+    fi
+}
+
+check "Rust    " rustc
+check "Go      " go
+check "Python  " python
+check "Node.js " node
+check "Julia   " julia
+check "Clang   " clang
+check "Make    " make
+check "CMake   " cmake
+check "Lua     " lua
+check "PostgreSQL" postgres
+check "Git     " git
+check "SSH     " ssh
+
+echo ""
+echo -e "${BOLD}  Services:${NC}"
+
+svc_check() {
+    local name="$1" port="$2"
+    if curl -sf --max-time 1 "http://127.0.0.1:$port/health" &>/dev/null; then
+        echo -e "  ${GREEN}[▲ LIVE]${NC}  $name :$port"
+    else
+        echo -e "  ${RED}[▼ OFF ]${NC}  $name :$port"
+    fi
+}
+
+svc_check "Tokio API    " 8080
+svc_check "Ktor Gateway " 8081
+svc_check "Julia Metrics" 8082
+svc_check "Kafka        " 9092
+svc_check "PostgreSQL   " 5432
+
+echo ""
+echo -e "${BOLD}  Commands:${NC}"
+echo -e "  ${CYAN}moat shield <dir>${NC}   — ZK-chain file lock"
+echo -e "  ${CYAN}moat status${NC}         — mesh + service health"
+echo -e "  ${CYAN}moat chain${NC}          — view ZK audit blocks"
+echo -e "  ${CYAN}titan-start${NC}         — boot all services"
+echo -e "  ${CYAN}titan-stop${NC}          — halt all services"
+echo -e "  ${CYAN}titan build rust${NC}    — compile Tokio API"
+echo -e "  ${CYAN}titan build kotlin${NC}  — build Ktor JAR"
+echo -e "  ${CYAN}titan build julia${NC}   — install Julia"
+echo -e "  ${CYAN}titan logs <svc>${NC}    — tail service logs"
+echo ""
+echo -e "${MAGENTA}${BOLD}  github.com/juliushill42 — 431 repos — 8 months${NC}"
+echo -e "${CYAN}  titanuai.com | juliushill@titanuai.com${NC}"
+echo ""
+
+# Sub-commands
+case "${1:-}" in
+    build)
+        case "${2:-}" in
+            rust)
+                echo -e "${BLUE}[BUILD] Rust/Tokio API...${NC}"
+                cd "$HOME/titan-mesh/titan-tokio-api" && cargo build --release
+                ;;
+            kotlin)
+                echo -e "${BLUE}[BUILD] Kotlin/Ktor Gateway...${NC}"
+                cd "$HOME/titan-mesh/titan-ktor-gateway" && \
+                    bash gradlew_bootstrap.sh && ./gradlew buildFatJar
+                ;;
+            julia)
+                echo -e "${BLUE}[INSTALL] Julia...${NC}"
+                bash "$HOME/titan-mesh/titan-julia-analytics/install_julia.sh"
+                ;;
+            all)
+                echo -e "${BLUE}[BUILD] Full stack...${NC}"
+                cd "$HOME/titan-mesh/titan-tokio-api" && cargo build --release &
+                wait
+                echo -e "${GREEN}[✓] Build complete${NC}"
+                ;;
+            *)
+                echo -e "${YELLOW}Usage: titan build [rust|kotlin|julia|all]${NC}"
+                ;;
+        esac
+        ;;
+    logs)
+        SVC="${2:-tokio}"
+        LOG="$HOME/titan-mesh/logs/${SVC}.log"
+        [ -f "$LOG" ] && tail -f "$LOG" || echo -e "${RED}No log: $LOG${NC}"
+        ;;
+    start)
+        bash "$HOME/titan-mesh/titan-start.sh"
+        ;;
+    stop)
+        bash "$HOME/titan-mesh/titan-stop.sh"
+        ;;
+esac
+'
+
+# Write the titan binary
+echo "$TITAN_SCRIPT" > "$PREFIX/bin/titan"
+chmod +x "$PREFIX/bin/titan"
+
+# Also create titan-start and titan-stop shortcuts
+cat > "$PREFIX/bin/titan-start" << 'STARTEOF'
+#!/usr/bin/env bash
+bash "$HOME/titan-mesh/titan-start.sh"
+STARTEOF
+chmod +x "$PREFIX/bin/titan-start"
+
+cat > "$PREFIX/bin/titan-stop" << 'STOPEOF'
+#!/usr/bin/env bash
+bash "$HOME/titan-mesh/titan-stop.sh"
+STOPEOF
+chmod +x "$PREFIX/bin/titan-stop"
+
+echo "Done. Type: titan"
