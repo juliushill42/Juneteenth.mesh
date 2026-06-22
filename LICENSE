@@ -1,37 +1,29 @@
 Business Source License 1.1
 
-Licensor: TitanU AI LLC (doing business as JuJu Labs)
+Licensor:             Julius Cameron Hill / Titan Universal AI LLC
+Licensed Work:        This Repository — Copyright (c) 2026 Julius Cameron Hill
+Additional Use Grant: None
+Change Date:          2030-01-01
+Change License:       Apache 2.0
 
-Licensed Work: The software, binaries, microservice substrates, and associated 
-documentation contained within this repository workspace.
+PATENT NOTICE: This work is covered under the JCH-2026 Provisional Patent Series
+(filed January 20, 2026). Patents include but are not limited to:
+  JCH-2026-001: Autonomous agent orchestration
+  JCH-2026-006: Sovereign WireGuard mesh + key rotation daemon
+  JCH-2026-009/010: WASM isolate + Go gateway + local GGUF routing
+  JCH-2026-JUDGE-001: Adversarial multi-agent legal evaluation swarm
+  JCH-2026-012: Tirus Protocol kernel-level defense system
 
-Change License: Apache License, Version 2.0
+CLEAN-ROOM RESTRICTION: AI-generated derivative systems that reproduce the
+architectural patterns, data flow designs, or functional specifications of
+this work are NOT protected by clean-room doctrine and remain subject to
+patent infringement claims regardless of source code originality.
 
-Change Date: June 22, 2030
+ML TRAINING PROHIBITION: Use of this codebase as training data, fine-tuning
+data, or evaluation data for any machine learning model, language model, or
+code generation system is explicitly prohibited without written consent.
 
-Additional Use Grant: You may make non-production use of the Licensed Work 
-free of charge. Non-production use includes local development, internal 
-architectural testing, evaluation sandbox processing, and academic research. 
+Commercial licensing inquiries: corpdev@titanuai.com
 
-Production Use Restrictions: Any use of the Licensed Work in a commercial 
-production environment, internal live operations pipeline, or client-facing 
-infrastructure deployment by any commercial business entity requires a separate, 
-fully paid Commercial Enterprise License executed directly with the Licensor.
-
-Terms of the Business Source License
-
-Regulated Use: Licensor hereby grants you the right to copy, modify, create 
-derivative works, redistribute, and run the Licensed Work solely for 
-the purposes permitted by the Additional Use Grant.
-
-Conversion to Change License: Effective on the Change Date, the Licensor hereby 
-grants you a permanent, non-exclusive, worldwide, royalty-free, irrevocable 
-license to use the Licensed Work under the terms of the Change License.
-
-Notices: You must retain all existing copyright notices, trademark indicators, 
-and proprietary text blocks in any copy or modification of the Licensed Work 
-that you distribute.
-
-DISCLAIMER: THE LICENSED WORK IS PROVIDED BY THE LICENSOR "AS IS" AND ANY 
-EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+THE LICENSED WORK IS PROVIDED "AS IS". THE LICENSOR HEREBY DISCLAIMS ALL
+WARRANTIES AND CONDITIONS, EXPRESS OR IMPLIED.
